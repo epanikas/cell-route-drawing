@@ -5,11 +5,11 @@ import { RouteWireSegment } from "./route-wire-segment";
 
 
 export class RouteProps {
-  cellSize: BoxSize;
-  route: CellRoute;
-  color: string;
-  lineWidth: number;
-  radius: number;
+  cellSize?: BoxSize;
+  route?: CellRoute;
+  color: string = "red";
+  lineWidth: number = 5;
+  radius: number = 10;
 }
 
 export class RouteWire extends React.Component<RouteProps> {
@@ -22,11 +22,11 @@ export class RouteWire extends React.Component<RouteProps> {
     const routeId = "route-";
 
 
-    const segments: CellRouteSegment[] = route.getRouteSegments();
+    const segments: CellRouteSegment[] = route!.getRouteSegments();
     const drawnSegments: JSX.Element[] = [];
     for (var i: number = 0; i < segments.length; ++i) {
-      var nextSegment: CellRouteSegment = undefined;
-      var prevSegment: CellRouteSegment = undefined;
+      var nextSegment: CellRouteSegment | undefined = undefined;
+      var prevSegment: CellRouteSegment | undefined = undefined;
 
       if (i > 0) {
         prevSegment = segments[i - 1];
@@ -50,7 +50,6 @@ export class RouteWire extends React.Component<RouteProps> {
       />);
 
     }
-
 
     return <div key={routeId}>{drawnSegments}</div>
   }

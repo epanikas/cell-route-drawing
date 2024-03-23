@@ -3,9 +3,9 @@ import { BoxSize } from "../../../data/box-size";
 
 export class GridProps {
 
-  layoutSizeX: number;
-  layoutSizeY: number;
-  cellSize: BoxSize;
+  layoutSizeX: number = 0;
+  layoutSizeY: number = 0;
+  cellSize?: BoxSize;
 
 }
 
@@ -19,16 +19,16 @@ export class Grid extends React.Component<GridProps>{
     let cells: JSX.Element[] = [];
     for (let i: number = 0; i < layoutSizeX; ++i) {
       for (let j: number = 0; j < layoutSizeY; ++j) {
-        const left: number = i * cellSize.sizeX;
-        const top: number = j * cellSize.sizeY;
+        const left: number = i * cellSize!.sizeX;
+        const top: number = j * cellSize!.sizeY;
         cells.push(
           <div key={"grid-cell-" + i + "-" + j}
                style={{
                  position: "absolute",
                  top: top + "px",
                  left: left + "px",
-                 width: cellSize.sizeX + "px",
-                 height: cellSize.sizeY + "px",
+                 width: cellSize!.sizeX + "px",
+                 height: cellSize!.sizeY + "px",
                  border: "1px solid lightgrey",
                }}
           ></div>
