@@ -1,15 +1,25 @@
 import React, {JSX} from "react";
-import { CellRoute, CellRouteSegment } from "../../../data/cell-route";
-import { BoxSize } from "../../../data/box-size";
+import { CellRoute, CellRouteSegment } from "../../data/cell-route";
+import { BoxSize } from "../../data/box-size";
 import { RouteWireSegment } from "./route-wire-segment";
 
 
 export class RouteProps {
-  cellSize?: BoxSize;
-  route?: CellRoute;
-  color: string = "red";
-  lineWidth: number = 5;
-  radius: number = 10;
+  cellSize: BoxSize;
+  route: CellRoute;
+  color: string;
+  lineWidth: number;
+  radius: number;
+  borderWidth: number;
+
+  constructor(cellSize: BoxSize, route: CellRoute, color: string = "red", lineWidth: number = 5, radius: number = 10, borderWidth: number = 2) {
+    this.cellSize = cellSize;
+    this.route = route;
+    this.color = color;
+    this.lineWidth = lineWidth;
+    this.radius = radius;
+    this.borderWidth = borderWidth;
+  }
 }
 
 export class RouteWire extends React.Component<RouteProps> {
@@ -17,7 +27,7 @@ export class RouteWire extends React.Component<RouteProps> {
 
   public override render(): JSX.Element {
 
-    const { route, color, cellSize, lineWidth, radius} = this.props;
+    const { route, color, cellSize, lineWidth, radius, borderWidth} = this.props;
 
     const routeId = "route-";
 
@@ -44,6 +54,7 @@ export class RouteWire extends React.Component<RouteProps> {
                                            routeSegment={rs}
                                            color={color}
                                            lineWidth={lineWidth}
+                                           borderWidth={borderWidth}
                                            radius={radius}
                                            prevSegment={prevSegment}
                                            nextSegment={nextSegment}

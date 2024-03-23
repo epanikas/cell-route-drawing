@@ -1,15 +1,19 @@
 import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import {BoxSize} from "./data/box-size";
-import {CellRouteView} from "./family-tree-layout-editor/view/cell-route-view";
+import {CellRouteView} from "./view/cell-route-view";
 import {CellRoute} from "./data/cell-route";
 import {LayoutPosition} from "./data/layout-position";
 
 const container = document.getElementById("root");
 
+if (container == null) {
+    throw new Error("not found container");
+}
+
 const root = ReactDOMClient.createRoot(container);
 
-const cellSize: BoxSize = new BoxSize(50, 50);
+const cellSize: BoxSize = new BoxSize(100, 100);
 
 const route: CellRoute = new CellRoute([
     new LayoutPosition(0, 1),

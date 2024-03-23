@@ -1,8 +1,8 @@
 import React, {CSSProperties, JSX} from "react";
-import {CellRouteSegment} from "../../../data/cell-route";
-import {LayoutPosition} from "../../../data/layout-position";
-import {CanvasPosition} from "../../../data/canvas-position";
-import {BoxSize} from "../../../data/box-size";
+import {CellRouteSegment} from "../../data/cell-route";
+import {LayoutPosition} from "../../data/layout-position";
+import {CanvasPosition} from "../../data/canvas-position";
+import {BoxSize} from "../../data/box-size";
 
 
 export class RouteWireSegmentProps {
@@ -10,6 +10,7 @@ export class RouteWireSegmentProps {
     cellSize: BoxSize;
     routeSegment: CellRouteSegment;
     lineWidth: number = 5;
+    borderWidth: number = 2;
     radius: number = 10;
     color: string = "red";
     prevSegment?: CellRouteSegment;
@@ -232,23 +233,23 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
     private static minInnerRadius: number = 10;
 
     public override render(): JSX.Element {
-        const {routeId, routeSegment} = this.props;
+        const {routeId, routeSegment, borderWidth} = this.props;
 
         const key: string = routeId + routeSegment.getP1() + routeSegment.getP2();
 
         const segmentPlacement: RouteSegmentPlacement = this.calculateRouteSegmentPlacement();
 
         const border: CSSProperties = {} as CSSProperties;
-        border.border = "2px solid " + (routeSegment.isVertical() ? "red" : "blue");
+        border.border = borderWidth + "px solid " + (routeSegment.isVertical() ? "red" : "blue");
 
         let innerRadiusDiv: JSX.Element | undefined = undefined;
         let outerRadiusDiv: JSX.Element | undefined = undefined;
 
         const innerBorder: CSSProperties = {} as CSSProperties;
-        innerBorder.borderWidth = "2px";
+        innerBorder.borderWidth = borderWidth + "px";
         innerBorder.borderColor = "green";
         const outerBorder: CSSProperties = {} as CSSProperties;
-        outerBorder.borderWidth = "2px";
+        outerBorder.borderWidth = borderWidth + "px";
         outerBorder.borderColor = "black";
 
         if (segmentPlacement.radius) {
@@ -295,12 +296,12 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
                                                       prevCornerPlacement?: {commonPointCorner: CornerMarker, adjacentVector: Vector},
                                                       nextCornerPlacement?: {commonPointCorner: CornerMarker, adjacentVector: Vector}): RouteSegmentPlacement {
 
-        const { lineWidth, radius} = this.props;
+        const { lineWidth, radius, borderWidth} = this.props;
         const halfLineWidth = lineWidth / 2;
 
         let placement: RouteSegmentPlacement = new RouteSegmentPlacement(
             new CanvasPosition(topLeftCanvas.x - halfLineWidth, topLeftCanvas.y - halfLineWidth),
-            new CanvasPosition(bottomRightCanvas.x + halfLineWidth, bottomRightCanvas.y + halfLineWidth)
+            new CanvasPosition(bottomRightCanvas.x + halfLineWidth - borderWidth, bottomRightCanvas.y + halfLineWidth - borderWidth)
         );
         // placement.main.p1 = ;
         // placement.main.p2 = ;
@@ -359,12 +360,12 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
                                                         prevCornerPlacement?: {commonPointCorner: CornerMarker, adjacentVector: Vector},
                                                         nextCornerPlacement?: {commonPointCorner: CornerMarker, adjacentVector: Vector}): RouteSegmentPlacement {
 
-        const { lineWidth, radius} = this.props;
+        const { lineWidth, radius, borderWidth} = this.props;
         const halfLineWidth = lineWidth / 2;
 
         let placement: RouteSegmentPlacement = new RouteSegmentPlacement(
             new CanvasPosition(topLeftCanvas.x - halfLineWidth, topLeftCanvas.y - halfLineWidth),
-            new CanvasPosition(bottomRightCanvas.x + halfLineWidth, bottomRightCanvas.y + halfLineWidth)
+            new CanvasPosition(bottomRightCanvas.x + halfLineWidth - borderWidth, bottomRightCanvas.y + halfLineWidth - borderWidth)
         );
         // placement.main.p1 = ;
         // placement.main.p2 = ;

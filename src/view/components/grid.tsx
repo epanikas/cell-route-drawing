@@ -1,5 +1,5 @@
 import React, {JSX} from "react";
-import { BoxSize } from "../../../data/box-size";
+import { BoxSize } from "../../data/box-size";
 
 export class GridProps {
 
