@@ -386,7 +386,7 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
             if (prevCornerPlacement.commonPointCorner == CornerMarker.top_left) {
                 placement.main.p1 = new CanvasPosition(placement.main.p1.x + outerRadius, placement.main.p1.y);
             } else {
-                placement.main.p2 = new CanvasPosition(placement.main.p2.x - outerRadius, placement.main.p1.y);
+                placement.main.p2 = new CanvasPosition(placement.main.p2.x - outerRadius, placement.main.p2.y);
             }
 
             const commonPoint: CanvasPosition = prevCornerPlacement.commonPointCorner == CornerMarker.top_left ? topLeftCanvas : bottomRightCanvas;

@@ -26,9 +26,9 @@ export class CellRouteView extends React.Component<CellRouteViewProps> {
 
         return (
             <div>
-                <div style={{width: cellSize!.sizeX * layoutSizeX, height: cellSize!.sizeY * layoutSizeY, position: 'relative'}}>
+                <div style={{width: cellSize.sizeX * layoutSizeX, height: cellSize.sizeY * layoutSizeY, position: 'relative'}}>
                     <Grid layoutSizeX={layoutSizeX} layoutSizeY={layoutSizeY} cellSize={cellSize} />
-                    <RouteWire cellSize={cellSize} route={route} color={"blue"} lineWidth={14} radius={30} borderWidth={4}/>
+                    <RouteWire cellSize={cellSize} route={route} color={"blue"} lineWidth={20} radius={30} borderWidth={4}/>
                 </div>
             </div>
         );
