@@ -26,10 +26,8 @@ export class LayoutPosition {
     return new LayoutPosition(Math.max(p1.x, p2.x), Math.max(p1.y, p2.y))
   }
 
-  public toCanvasPosition(cellSize: BoxSize): CanvasPosition {
-    return new CanvasPosition(
-        cellSize.sizeX / 2 + this.x * cellSize.sizeX,
-        cellSize.sizeY / 2 + this.y * cellSize.sizeY)
+  public toCanvasPosition(cellSize: BoxSize, shift: CanvasPosition = new CanvasPosition(cellSize.sizeX / 2, cellSize.sizeY / 2)): CanvasPosition {
+    return new CanvasPosition(shift.x + this.x * cellSize.sizeX, shift.y + this.y * cellSize.sizeY);
   }
 
 }

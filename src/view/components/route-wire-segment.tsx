@@ -233,24 +233,33 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
     private static minInnerRadius: number = 10;
 
     public override render(): JSX.Element {
-        const {routeId, routeSegment, borderWidth} = this.props;
+        const {routeId, routeSegment, borderWidth, color} = this.props;
 
         const key: string = routeId + routeSegment.getP1() + routeSegment.getP2();
 
         const segmentPlacement: RouteSegmentPlacement = this.calculateRouteSegmentPlacement();
 
         const border: CSSProperties = {} as CSSProperties;
-        border.border = borderWidth + "px solid " + (routeSegment.isVertical() ? "red" : "blue");
+        // border.border = borderWidth + "px solid " + (routeSegment.isVertical() ? "red" : "blue");
+        border.borderTopWidth = routeSegment.isVertical() ? "0" : borderWidth + "px";
+        border.borderBottomWidth = routeSegment.isVertical() ? "0" : borderWidth + "px";
+        border.borderLeftWidth = routeSegment.isVertical() ? borderWidth + "px" : "0";
+        border.borderRightWidth = routeSegment.isVertical() ? borderWidth + "px" : "0";
+        border.color = color;
+        border.borderTopStyle = routeSegment.isVertical() ? "none" : "solid";
+        border.borderBottomStyle = routeSegment.isVertical() ? "none" : "solid";
+        border.borderLeftStyle = routeSegment.isVertical() ? "solid" : "none";
+        border.borderRightStyle = routeSegment.isVertical() ? "solid" : "none";
 
         let innerRadiusDiv: JSX.Element | undefined = undefined;
         let outerRadiusDiv: JSX.Element | undefined = undefined;
 
         const innerBorder: CSSProperties = {} as CSSProperties;
         innerBorder.borderWidth = borderWidth + "px";
-        innerBorder.borderColor = "green";
+        innerBorder.borderColor = color/*"green"*/;
         const outerBorder: CSSProperties = {} as CSSProperties;
         outerBorder.borderWidth = borderWidth + "px";
-        outerBorder.borderColor = "black";
+        outerBorder.borderColor = color/*"black"*/;
 
         if (segmentPlacement.radius) {
             innerRadiusDiv = <div key={key + "-inner-radius"}
@@ -301,26 +310,16 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
 
         let placement: RouteSegmentPlacement = new RouteSegmentPlacement(
             new CanvasPosition(topLeftCanvas.x - halfLineWidth, topLeftCanvas.y - halfLineWidth),
-            new CanvasPosition(bottomRightCanvas.x + halfLineWidth - borderWidth, bottomRightCanvas.y + halfLineWidth - borderWidth)
+            new CanvasPosition(bottomRightCanvas.x + halfLineWidth - borderWidth, bottomRightCanvas.y + halfLineWidth/* - borderWidth*/)
         );
-        // placement.main.p1 = ;
-        // placement.main.p2 = ;
 
         const innerRadius: number = Math.max(radius - lineWidth, RouteWireSegment.minInnerRadius);
         const outerRadius: number = Math.max(radius, lineWidth + RouteWireSegment.minInnerRadius);
 
-        if (nextCornerPlacement) {
-            if (nextCornerPlacement.commonPointCorner == CornerMarker.top_left) {
-                placement.main.p1 = new CanvasPosition(placement.main.p1.x, placement.main.p1.y + outerRadius);
-            } else {
-                placement.main.p2 = new CanvasPosition(placement.main.p2.x, placement.main.p2.y - outerRadius);
-            }
-        }
-
         if (prevCornerPlacement) {
 
             if (prevCornerPlacement.commonPointCorner == CornerMarker.top_left) {
-                placement.main.p1 = new CanvasPosition(placement.main.p1.x, placement.main.p1.y + outerRadius);
+                placement.main.p1 = new CanvasPosition(placement.main.p1.x, placement.main.p1.y + outerRadius + borderWidth);
             } else {
                 placement.main.p2 = new CanvasPosition(placement.main.p2.x, placement.main.p2.y - outerRadius);
             }
@@ -351,6 +350,14 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
                 borderStyle);
         }
 
+        if (nextCornerPlacement) {
+            if (nextCornerPlacement.commonPointCorner == CornerMarker.top_left) {
+                placement.main.p1 = new CanvasPosition(placement.main.p1.x, placement.main.p1.y + outerRadius + borderWidth);
+            } else {
+                placement.main.p2 = new CanvasPosition(placement.main.p2.x, placement.main.p2.y - outerRadius);
+            }
+        }
+
         return placement;
 
     }
@@ -365,7 +372,7 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
 
         let placement: RouteSegmentPlacement = new RouteSegmentPlacement(
             new CanvasPosition(topLeftCanvas.x - halfLineWidth, topLeftCanvas.y - halfLineWidth),
-            new CanvasPosition(bottomRightCanvas.x + halfLineWidth - borderWidth, bottomRightCanvas.y + halfLineWidth - borderWidth)
+            new CanvasPosition(bottomRightCanvas.x + halfLineWidth, bottomRightCanvas.y + halfLineWidth - borderWidth)
         );
         // placement.main.p1 = ;
         // placement.main.p2 = ;
@@ -373,20 +380,12 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
         const innerRadius: number = Math.max(radius - lineWidth, RouteWireSegment.minInnerRadius);
         const outerRadius: number = Math.max(radius, lineWidth + RouteWireSegment.minInnerRadius);
 
-        if (nextCornerPlacement) {
-            if (nextCornerPlacement.commonPointCorner == CornerMarker.top_left) {
-                placement.main.p1 = new CanvasPosition(placement.main.p1.x + outerRadius, placement.main.p1.y);
-            } else {
-                placement.main.p2 = new CanvasPosition(placement.main.p2.x - outerRadius, placement.main.p2.y);
-            }
-        }
-
         if (prevCornerPlacement) {
 
             if (prevCornerPlacement.commonPointCorner == CornerMarker.top_left) {
-                placement.main.p1 = new CanvasPosition(placement.main.p1.x + outerRadius, placement.main.p1.y);
+                placement.main.p1 = new CanvasPosition(placement.main.p1.x + outerRadius + borderWidth, placement.main.p1.y);
             } else {
-                placement.main.p2 = new CanvasPosition(placement.main.p2.x - outerRadius, placement.main.p2.y);
+                placement.main.p2 = new CanvasPosition(placement.main.p2.x - outerRadius /*+ borderWidth*/, placement.main.p2.y);
             }
 
             const commonPoint: CanvasPosition = prevCornerPlacement.commonPointCorner == CornerMarker.top_left ? topLeftCanvas : bottomRightCanvas;
@@ -414,6 +413,14 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
                 new AbsoluteRectangle(outerRadiusRectangleP1, outerRadiusRectangleP2),
                 borderStyle);
 
+        }
+
+        if (nextCornerPlacement) {
+            if (nextCornerPlacement.commonPointCorner == CornerMarker.top_left) {
+                placement.main.p1 = new CanvasPosition(placement.main.p1.x + outerRadius + borderWidth, placement.main.p1.y);
+            } else {
+                placement.main.p2 = new CanvasPosition(placement.main.p2.x - outerRadius, placement.main.p2.y);
+            }
         }
 
         return placement;
@@ -457,7 +464,7 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
 
     private calculateBorderStyle(xDirection: number, yDirection: number): CSSProperties {
 
-        const style: CSSProperties = {} as CSSProperties/*new Map<string, string>()*/;
+        const style: CSSProperties = {} as CSSProperties;
 
         if (xDirection < 0 && yDirection < 0) {
             // bottom_right

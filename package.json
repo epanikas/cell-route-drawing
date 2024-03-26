@@ -26,7 +26,13 @@
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "workbox-webpack-plugin": "^6.4.1"
+    "workbox-webpack-plugin": "^6.4.1",
+    "@emotion/cache": "11.10.7",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "5.11.16",
+    "@mui/material": "^5.15.1",
+    "@mui/styled-engine": "5.12.0"
   },
   "scripts": {
     "dev": "webpack-dev-server --mode=development"

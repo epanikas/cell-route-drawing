@@ -53,4 +53,4 @@ const route1: CellRoute = new CellRoute([
     new LayoutPosition(0, 1),
 ]);
 
-root.render(<CellRouteView cellSize={cellSize} layoutSizeX={10} layoutSizeY={5} route={route1} />);
+root.render(<CellRouteView cellSize={cellSize} />);
