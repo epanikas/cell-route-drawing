@@ -80,10 +80,10 @@ export class CellRouteView extends React.Component<CellRouteViewProps> {
                 <div style={containerCss}>
                     <div style={backgroundCss} />
                     <Grid layoutSizeX={layoutSizeX} layoutSizeY={layoutSizeY} cellSize={cellSize} />
-                    {/*<RouteWire cellSize={cellSize} route={route1} color={"#ff7f7f"} lineWidth={30} radius={30} borderWidth={6}/>*/}
-                    {/*<RouteWire cellSize={cellSize} route={route2} color={"#7fff7f"} lineWidth={30} radius={30} borderWidth={6}/>*/}
                     <RouteWire cellSize={cellSize} route={route1} color={"rgba(255, 217, 96, 1)"} lineWidth={30} radius={30} borderWidth={10}/>
                     <RouteWire cellSize={cellSize} route={route2} color={"rgba(215, 242, 255, 1)"} lineWidth={30} radius={30} borderWidth={10}/>
+                    {/*<RouteWire cellSize={cellSize} route={route1} color={"rgba(255, 0, 0, 0.5)"} lineWidth={30} radius={30} borderWidth={20}/>*/}
+                    {/*<RouteWire cellSize={cellSize} route={route2} color={"rgba(0, 255, 0, 0.5)"} lineWidth={30} radius={30} borderWidth={20}/>*/}
                     <GridCard gridPos={new LayoutPosition(0, 0)} cellSize={cellSize} imagePath={"avatar/mouse-square1.jpg"} />
                     <GridCard gridPos={new LayoutPosition(10, 4)} cellSize={cellSize} imagePath={"avatar/cheese-square1.jpg"}/>
                     <GridCard gridPos={new LayoutPosition(0, 4)} cellSize={cellSize} imagePath={"avatar/honey-square1.jpg"}/>
