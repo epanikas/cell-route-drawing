@@ -45,24 +45,12 @@ export class CellRouteSegment {
 }
 
 export class CellRoute {
-  // private readonly startBoxId: string;
-  // private readonly endBoxId: string
   readonly cells: LayoutPosition[] = [];
 
-  constructor(/*startBoxId: string, endBoxId: string, */cells: LayoutPosition[]) {
-    // this.startBoxId = startBoxId;
-    // this.endBoxId = endBoxId;
-    // cells.forEach((c: LayoutPosition) => this.addPoint(c));
+  constructor(cells: LayoutPosition[]) {
     this.cells = cells;
   }
 
-  // getStartBoxId(): string {
-  //   return this.startBoxId;
-  // }
-
-  // getEndBoxId(): string {
-  //   return this.endBoxId;
-  // }
 
   public cloneRoute(): CellRoute {
     return new CellRoute(this.cells);
@@ -99,7 +87,6 @@ export class CellRoute {
 
   public validate(): CellRoute {
     const segments = this.getRouteSegments();
-    // console.log(segments[0])
     return this;
   }
 
@@ -115,19 +102,5 @@ export class CellRoute {
     return this.cells[this.cells.length - 1];
   }
 
-  getNumStairs(): number {
-    let prev = this.getRouteSegments()[0];
-    let numStairs = 0;
-    this.getRouteSegments().forEach(rs => {
-      const dirPrev = [Math.sign(prev.getP2().x - prev.getP1().x), Math.sign(prev.getP2().y - prev.getP1().y)]
-      const dirRs = [Math.sign(rs.getP2().x - rs.getP1().x), Math.sign(rs.getP2().y - rs.getP1().y)]
-      if (Math.abs(dirPrev[0]) != Math.abs(dirRs[0]) || Math.abs(dirPrev[1]) != Math.abs(dirRs[1])) {
-        numStairs++;
-      }
-      prev = rs;
-    });
-    // console.log("for route " + this + " num stairs " + numStairs);
-    return numStairs;
-  }
 
 }
