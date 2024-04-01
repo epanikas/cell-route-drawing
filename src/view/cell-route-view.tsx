@@ -26,6 +26,9 @@ const route1: CellRoute = new CellRoute([
     new LayoutPosition(1, 3),
     new LayoutPosition(6, 3),
     new LayoutPosition(6, 0),
+    new LayoutPosition(8, 0),
+    new LayoutPosition(8, 2),
+    new LayoutPosition(10, 2),
     new LayoutPosition(10, 0),
 ]);
 
@@ -111,9 +114,9 @@ export class CellRouteView extends React.Component<CellRouteViewProps> {
                     {/*<RouteWire cellSize={cellSize} route={route1} color={"rgba(255, 0, 0, 0.5)"} lineWidth={30} radius={30} borderWidth={20}/>*/}
                     {/*<RouteWire cellSize={cellSize} route={route2} color={"rgba(0, 255, 0, 0.5)"} lineWidth={30} radius={30} borderWidth={20}/>*/}
                     <GridCard gridPos={new LayoutPosition(0, 0)} cellSize={cellSize} imagePath={"avatar/mouse-square1.jpg"} />
-                    <GridCard gridPos={new LayoutPosition(10, 4)} cellSize={cellSize} imagePath={"avatar/cheese-square1.jpg"}/>
+                    <GridCard gridPos={new LayoutPosition(10, 4)} cellSize={cellSize} imagePath={"avatar/bee-square1.jpg"}/>
+                    <GridCard gridPos={new LayoutPosition(10, 0)} cellSize={cellSize} imagePath={"avatar/cheese-square1.jpg"}/>
                     <GridCard gridPos={new LayoutPosition(0, 4)} cellSize={cellSize} imagePath={"avatar/honey-square1.jpg"}/>
-                    <GridCard gridPos={new LayoutPosition(10, 0)} cellSize={cellSize} imagePath={"avatar/bee-square1.jpg"}/>
                 </div>
             </div>
         );
