@@ -213,8 +213,8 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
         console.log("canvas corner " + canvasCorner.corner + ", " + canvasCorner.xDirection + ", " + canvasCorner.yDirection)
 
         const innerCornerPoint: CanvasPosition = new CanvasPosition(
-            canvasCorner.point.x + (canvasCorner.xDirection < 0 ? -(cornerSide+2*borderWidth) : cornerSide),
-            canvasCorner.point.y + (canvasCorner.yDirection < 0 ? -(cornerSide+2*borderWidth) : cornerSide));
+            canvasCorner.point.x + (canvasCorner.xDirection < 0 ? -(cornerSide + borderWidth) : cornerSide),
+            canvasCorner.point.y + (canvasCorner.yDirection < 0 ? -(cornerSide + borderWidth) : cornerSide));
 
         const innerRectangle: CanvasRectangle = new CanvasRectangle(
             innerCornerPoint, new CanvasPosition(
@@ -229,17 +229,36 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
         );
 
         const innerBorderCss: CSSProperties = {} as CSSProperties;
-        innerBorderCss.border = borderWidth + "px solid red";
+        innerBorderCss.borderWidth = borderWidth + "px";
+        innerBorderCss.borderColor = "red";
+        innerBorderCss.borderStyle = this.getBorderStyle(canvasCorner.corner);
 
         const innerRadius: JSX.Element = <div key={key + "-inner-radius"}
                            style={CssPropertiesUtils.mergeCssProperties(innerRectangle.toStyle(), innerBorderCss)}/>
 
         const outerBorderCss: CSSProperties = {} as CSSProperties;
-        outerBorderCss.border = borderWidth + "px solid blue";
+        outerBorderCss.borderWidth = borderWidth + "px";
+        outerBorderCss.borderColor = "blue";
+        outerBorderCss.borderStyle = this.getBorderStyle(canvasCorner.corner);
 
         const outerRadius: JSX.Element = <div key={key + "-outer-radius"}
                            style={CssPropertiesUtils.mergeCssProperties(outerRectangle.toStyle(), outerBorderCss)}/>
 
         return [innerRadius, outerRadius];
+    }
+
+    getBorderStyle(cornerType: CornerType): import("csstype").Property.BorderStyle {
+
+        switch (cornerType) {
+            case CornerType.topLeft:
+                return "solid none none solid";
+            case CornerType.topRight:
+                return "solid solid none none";
+            case CornerType.bottomLeft:
+                return "none none solid solid";
+            case CornerType.bottomRight:
+                return "none solid solid none";
+        }
+
     }
 }
