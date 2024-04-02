@@ -79,11 +79,11 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
         let mainBottomRight: CanvasPosition = new CanvasPosition(bottomRightCanvas.x + halfLineWidth - borderWidth, bottomRightCanvas.y + halfLineWidth);
 
         if (hasTopLeftAdjacent) {
-            mainTopLeft = new CanvasPosition(mainTopLeft.x, mainTopLeft.y + radius + lineWidth + borderWidth);
+            mainTopLeft = new CanvasPosition(mainTopLeft.x, mainTopLeft.y + radius + lineWidth + 2 * borderWidth);
         }
 
         if (hasBottomRightAdjacent) {
-            mainBottomRight = new CanvasPosition(mainBottomRight.x, mainBottomRight.y - radius - lineWidth - borderWidth);
+            mainBottomRight = new CanvasPosition(mainBottomRight.x, mainBottomRight.y - radius - lineWidth - 2 * borderWidth);
         }
 
         return new CanvasRectangle(mainTopLeft, mainBottomRight);
@@ -101,11 +101,11 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
         let mainBottomRight: CanvasPosition = new CanvasPosition(bottomRightCanvas.x + halfLineWidth, bottomRightCanvas.y + halfLineWidth - borderWidth);
 
         if (hasTopLeftAdjacent) {
-            mainTopLeft = new CanvasPosition(mainTopLeft.x + radius + lineWidth + borderWidth, mainTopLeft.y);
+            mainTopLeft = new CanvasPosition(mainTopLeft.x + radius + lineWidth + 2*borderWidth, mainTopLeft.y);
         }
 
         if (hasBottomRightAdjacent) {
-            mainBottomRight = new CanvasPosition(mainBottomRight.x - radius - lineWidth - borderWidth, mainBottomRight.y);
+            mainBottomRight = new CanvasPosition(mainBottomRight.x - radius - lineWidth - 2*borderWidth, mainBottomRight.y);
         }
 
         return new CanvasRectangle(mainTopLeft, mainBottomRight);
@@ -230,16 +230,18 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
 
         const innerBorderCss: CSSProperties = {} as CSSProperties;
         innerBorderCss.borderWidth = borderWidth + "px";
-        innerBorderCss.borderColor = "red";
+        innerBorderCss.borderColor = "rgb(255, 0, 0, 0.5)";
         innerBorderCss.borderStyle = this.getBorderStyle(canvasCorner.corner);
+        innerBorderCss.borderRadius = this.getBorderRadius(canvasCorner.corner);
 
         const innerRadius: JSX.Element = <div key={key + "-inner-radius"}
                            style={CssPropertiesUtils.mergeCssProperties(innerRectangle.toStyle(), innerBorderCss)}/>
 
         const outerBorderCss: CSSProperties = {} as CSSProperties;
         outerBorderCss.borderWidth = borderWidth + "px";
-        outerBorderCss.borderColor = "blue";
+        outerBorderCss.borderColor = "rgb(0, 0, 255, 0.5)";
         outerBorderCss.borderStyle = this.getBorderStyle(canvasCorner.corner);
+        outerBorderCss.borderRadius = this.getBorderRadius(canvasCorner.corner);
 
         const outerRadius: JSX.Element = <div key={key + "-outer-radius"}
                            style={CssPropertiesUtils.mergeCssProperties(outerRectangle.toStyle(), outerBorderCss)}/>
@@ -247,7 +249,7 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
         return [innerRadius, outerRadius];
     }
 
-    getBorderStyle(cornerType: CornerType): import("csstype").Property.BorderStyle {
+    getBorderStyle(cornerType: CornerType): string {
 
         switch (cornerType) {
             case CornerType.topLeft:
@@ -260,5 +262,19 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
                 return "none solid solid none";
         }
 
+    }
+
+    private getBorderRadius(cornerType: CornerType): import("csstype").Property.BorderRadius {
+
+        switch (cornerType) {
+            case CornerType.topLeft:
+                return "100% 0 0 0";
+            case CornerType.topRight:
+                return "0 100% 0 0";
+            case CornerType.bottomLeft:
+                return "0 0 0 100%";
+            case CornerType.bottomRight:
+                return "0 0 100% 0";
+        }
     }
 }
