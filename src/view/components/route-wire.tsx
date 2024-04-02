@@ -48,6 +48,8 @@ export class RouteWire extends React.Component<RouteProps> {
                                                  lineWidth={lineWidth}
                                                  borderWidth={borderWidth}
                                                  radius={radius}
+                                                 prevSegment={i > 0 ? segments[i - 1] : undefined}
+                                                 nextSegment={i < segments.length - 1 ? segments[i + 1] : undefined}
             />);
 
         }
