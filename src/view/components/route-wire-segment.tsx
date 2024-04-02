@@ -4,6 +4,7 @@ import {BoxSize} from "../../data/box-size";
 import {CellRouteSegment} from "../../data/cell-route-segment";
 import {CanvasRectangle} from "../../data/canvas-rectangle";
 import {CssPropertiesUtils} from "../../data/css-properties-utils";
+import {CanvasCorner, CornerType} from "../../data/canvas-corner";
 
 
 export class RouteWireSegmentProps {
@@ -27,7 +28,7 @@ export class RouteWireSegmentProps {
 export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
 
     public override render(): JSX.Element {
-        const {routeId, routeSegment, borderWidth, color} = this.props;
+        const {routeId, routeSegment, borderWidth, color, prevSegment} = this.props;
 
         const key: string = routeId + routeSegment.getP1() + routeSegment.getP2();
 
@@ -35,7 +36,15 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
 
         const borderCss: CSSProperties = this.segmentBorderCss(borderWidth, color);
 
-        return <div key={key + "-main"} style={CssPropertiesUtils.mergeCssProperties(segmentRectangle.toStyle(), borderCss)}/>;
+        let radius: JSX.Element[] = this.getRadiusJsx(key);
+
+        return (
+            <div>
+                <div key={key + "-main"}
+                     style={CssPropertiesUtils.mergeCssProperties(segmentRectangle.toStyle(), borderCss)}/>
+                {radius}
+            </div>
+        );
     }
 
     private calculateRouteCanvasRectangle(): CanvasRectangle {
@@ -155,5 +164,82 @@ export class RouteWireSegment extends React.Component<RouteWireSegmentProps> {
         }
 
         return undefined;
+    }
+
+    private getCornerPoint(routeSegment: CellRouteSegment, prevSegment: CellRouteSegment): CanvasCorner {
+
+        const { cellSize } = this.props;
+
+        if (routeSegment.isVertical()) {
+
+            if (routeSegment.topLeft().equals(prevSegment.topLeft())) {
+                return new CanvasCorner(routeSegment.topLeft().toCanvasPosition(cellSize), CornerType.topLeft);
+            } else if (routeSegment.topLeft().equals(prevSegment.bottomRight())) {
+                return new CanvasCorner(routeSegment.topLeft().toCanvasPosition(cellSize), CornerType.topRight);
+            } else if (routeSegment.bottomRight().equals(prevSegment.topLeft())) {
+                return new CanvasCorner(routeSegment.bottomRight().toCanvasPosition(cellSize), CornerType.bottomLeft);
+            } else if (routeSegment.bottomRight().equals(prevSegment.bottomRight())) {
+                return new CanvasCorner(routeSegment.bottomRight().toCanvasPosition(cellSize), CornerType.bottomRight);
+            }
+        } else {
+            if (routeSegment.topLeft().equals(prevSegment.topLeft())) {
+                return new CanvasCorner(routeSegment.topLeft().toCanvasPosition(cellSize), CornerType.topLeft);
+            } else if (routeSegment.topLeft().equals(prevSegment.bottomRight())) {
+                return new CanvasCorner(routeSegment.topLeft().toCanvasPosition(cellSize), CornerType.bottomLeft);
+            } else if (routeSegment.bottomRight().equals(prevSegment.topLeft())) {
+                return new CanvasCorner(routeSegment.bottomRight().toCanvasPosition(cellSize), CornerType.topRight);
+            } else if (routeSegment.bottomRight().equals(prevSegment.bottomRight())) {
+                return new CanvasCorner(routeSegment.bottomRight().toCanvasPosition(cellSize), CornerType.bottomRight);
+            }
+        }
+
+        throw new Error("can't calculate corner point for " + routeSegment + " and " + prevSegment);
+    }
+
+    private getRadiusJsx(key: string): JSX.Element[] {
+
+        const {prevSegment, routeSegment, borderWidth} = this.props;
+
+        if (!prevSegment) {
+            return []
+        }
+        const canvasCorner: CanvasCorner = this.getCornerPoint(routeSegment, prevSegment);
+        const {radius, lineWidth} = this.props;
+        const halfLineWidth = lineWidth / 2.;
+        const cornerSide = halfLineWidth + radius + borderWidth;
+        const innerRectSide: number = radius + borderWidth;
+        const outerRectSide: number = innerRectSide + lineWidth + borderWidth;
+
+        console.log("canvas corner " + canvasCorner.corner + ", " + canvasCorner.xDirection + ", " + canvasCorner.yDirection)
+
+        const innerCornerPoint: CanvasPosition = new CanvasPosition(
+            canvasCorner.point.x + (canvasCorner.xDirection < 0 ? -(cornerSide+2*borderWidth) : cornerSide),
+            canvasCorner.point.y + (canvasCorner.yDirection < 0 ? -(cornerSide+2*borderWidth) : cornerSide));
+
+        const innerRectangle: CanvasRectangle = new CanvasRectangle(
+            innerCornerPoint, new CanvasPosition(
+                innerCornerPoint.x + -1 * canvasCorner.xDirection * innerRectSide,
+                innerCornerPoint.y + -1 * canvasCorner.yDirection * innerRectSide)
+        );
+
+        const outerRectangle: CanvasRectangle = new CanvasRectangle(
+            innerCornerPoint, new CanvasPosition(
+                innerCornerPoint.x + -1 * canvasCorner.xDirection * outerRectSide,
+                innerCornerPoint.y + -1 * canvasCorner.yDirection * outerRectSide)
+        );
+
+        const innerBorderCss: CSSProperties = {} as CSSProperties;
+        innerBorderCss.border = borderWidth + "px solid red";
+
+        const innerRadius: JSX.Element = <div key={key + "-inner-radius"}
+                           style={CssPropertiesUtils.mergeCssProperties(innerRectangle.toStyle(), innerBorderCss)}/>
+
+        const outerBorderCss: CSSProperties = {} as CSSProperties;
+        outerBorderCss.border = borderWidth + "px solid blue";
+
+        const outerRadius: JSX.Element = <div key={key + "-outer-radius"}
+                           style={CssPropertiesUtils.mergeCssProperties(outerRectangle.toStyle(), outerBorderCss)}/>
+
+        return [innerRadius, outerRadius];
     }
 }

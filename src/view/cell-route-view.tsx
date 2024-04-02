@@ -42,7 +42,7 @@ export class CellRouteView extends React.Component<CellRouteViewProps> {
             <div>
                 <div style={containerCss}>
                     <Grid layoutSizeX={layoutSizeX} layoutSizeY={layoutSizeY} cellSize={cellSize}/>
-                    <RouteWire cellSize={cellSize} route={route} color={"rgba(114, 217, 96, 0.5)"} lineWidth={20} radius={0} borderWidth={10}/>
+                    <RouteWire cellSize={cellSize} route={route} color={"rgba(114, 217, 96, 0.5)"} lineWidth={20} radius={20} borderWidth={2}/>
                     <GridCard gridPos={new LayoutPosition(0, 0)} cellSize={cellSize} imagePath={"avatar/mouse-square1.jpg"}/>
                     <GridCard gridPos={new LayoutPosition(4, 4)} cellSize={cellSize} imagePath={"avatar/cheese-square1.jpg"}/>
                 </div>
