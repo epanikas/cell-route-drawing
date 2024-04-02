@@ -9,7 +9,6 @@ export class GridCardProperties {
     cellSize: BoxSize;
     imagePath: string;
 
-
     constructor(gridPos: LayoutPosition, cellSize: BoxSize, imagePath: string) {
         this.gridPos = gridPos;
         this.cellSize = cellSize;
@@ -33,10 +32,7 @@ export class GridCard extends React.Component<GridCardProperties> {
         cardStyle.height = cellSize.sizeY - 1 + "px";
         cardStyle.borderRadius = "10px";
 
-
-        return (
-            <Avatar alt="Remy Sharp" style={cardStyle} src={"/static/images/" + imagePath} />
-        );
+        return <Avatar style={cardStyle} src={"/static/images/" + imagePath}/>;
 
     }
 

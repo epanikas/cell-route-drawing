@@ -32,7 +32,7 @@ export class Grid extends React.Component<GridProps> {
                              borderTop: "1px solid lightgrey",
                              borderLeft: i == 0 ? "1px solid lightgrey" : "none",
                              borderRight: "1px solid lightgrey",
-                             borderBottom: j == layoutSizeY - 1  ? "1px solid lightgrey" : "none",
+                             borderBottom: j == layoutSizeY - 1 ? "1px solid lightgrey" : "none",
                          }}
                     ></div>
                 );

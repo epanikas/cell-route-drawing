@@ -1,33 +1,33 @@
-import { BoxSize } from "./box-size";
+import {BoxSize} from "./box-size";
 import {CanvasPosition} from "./canvas-position";
 
 export class LayoutPosition {
-  readonly x: number;
-  readonly y: number;
+    readonly x: number;
+    readonly y: number;
 
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
 
-  public toString(): string {
-    return this.x + "," + this.y;
-  }
+    public toString(): string {
+        return this.x + "," + this.y;
+    }
 
-  public equals(pos: LayoutPosition): boolean {
-    return this.x == pos.x && this.y == pos.y;
-  }
+    public equals(pos: LayoutPosition): boolean {
+        return this.x == pos.x && this.y == pos.y;
+    }
 
-  public static topLeft(p1: LayoutPosition, p2: LayoutPosition): LayoutPosition {
-    return new LayoutPosition(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y))
-  }
+    public static topLeft(p1: LayoutPosition, p2: LayoutPosition): LayoutPosition {
+        return new LayoutPosition(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y))
+    }
 
-  public static bottomRight(p1: LayoutPosition, p2: LayoutPosition): LayoutPosition {
-    return new LayoutPosition(Math.max(p1.x, p2.x), Math.max(p1.y, p2.y))
-  }
+    public static bottomRight(p1: LayoutPosition, p2: LayoutPosition): LayoutPosition {
+        return new LayoutPosition(Math.max(p1.x, p2.x), Math.max(p1.y, p2.y))
+    }
 
-  public toCanvasPosition(cellSize: BoxSize, shift: CanvasPosition = new CanvasPosition(cellSize.sizeX / 2, cellSize.sizeY / 2)): CanvasPosition {
-    return new CanvasPosition(shift.x + this.x * cellSize.sizeX, shift.y + this.y * cellSize.sizeY);
-  }
+    public toCanvasPosition(cellSize: BoxSize, shift: CanvasPosition = new CanvasPosition(cellSize.sizeX / 2, cellSize.sizeY / 2)): CanvasPosition {
+        return new CanvasPosition(shift.x + this.x * cellSize.sizeX, shift.y + this.y * cellSize.sizeY);
+    }
 
 }
